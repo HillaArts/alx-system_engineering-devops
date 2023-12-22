@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Displays a list of running processes containing the bash and disable SC2009 
+
+ps -auxf | grep bash
