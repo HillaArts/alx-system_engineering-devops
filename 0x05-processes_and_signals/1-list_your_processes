@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Displays a list of running processes, all users, show hierarchy.
+
+ps -auxf
