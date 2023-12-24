@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# display content of the file /etc/passwd
+
+passwd_file="/etc/passwd"
+
+if [ -e "$passwd_file" ]; then
+  while IFS=: read -r username _ uid _ _ home _; do
+    echo "Username: $username"
+    echo "User ID: $uid"
+    echo "Home Directory: $home"
+    echo
+  done < "$passwd_file"
+else
+  echo "Error: /etc/passwd file does not exist."
+fi
