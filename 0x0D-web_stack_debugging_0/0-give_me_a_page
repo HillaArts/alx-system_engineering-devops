@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script debugs and fixes an issue where Apache does not serve the expected page
+
+# Commands used inside the container for debugging:
+# apt-get update
+# apt-get install apache2 -y
+# service apache2 start
+echo "Hello Holberton" > /var/www/html/index.html
+
