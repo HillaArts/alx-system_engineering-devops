@@ -1,8 +1,19 @@
 #!/usr/bin/env bash
-# This script debugs and fixes an issue where Apache does not serve the expected page
+# Fixes Apache to serve a "Hello Holberton" page on its root
 
-# Commands used inside the container for debugging:
-# apt-get update
-# apt-get install apache2 -y
-# service apache2 start
-#echo "Hello Holberton" > /var/www/html/index.html
+# Update package lists
+apt-get update
+
+# Install Apache2 if it's not already installed
+if ! command -v apache2 >/dev/null; then
+    apt-get install apache2 -y
+fi
+
+# Ensure the Apache service is started
+service apache2 start
+
+# Create and populate the index.html file
+echo "Hello Holberton" > /var/www/html/index.html
+
+# Restart Apache to ensure changes are applied
+service apache2 restart
