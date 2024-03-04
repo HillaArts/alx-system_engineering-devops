@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#Configure an Ubuntu server with Nginx to respond with "Hello World!" to all requests.
+
+# Update the package list
+apt-get update -y
+
+# Install Nginx if it's not already installed
+apt-get install nginx -y
+
+# Ensure Nginx is started (can't use systemctl, using service as a more universal way)
+service nginx start
+
+# Replace the default Nginx site configuration
+cat > /etc/nginx/sites-available/default <<EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html;
+
+    server_name _;
+
+    location / {
+        return 200 'Hello World!';
+    }
+}
+EOF
+
+# Restart Nginx to apply the changes (can't use systemctl, using service)
+service nginx restart
