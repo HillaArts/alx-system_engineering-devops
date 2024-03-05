@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#Configure Nginx to redirect /redirect_me to another page with a 301 Moved Permanently
+
+# Install Nginx if it's not already installed
+apt-get update -y
+apt-get install -y nginx
+
+# Configure redirection
+# Assuming the default Nginx site configuration at /etc/nginx/sites-available/default
+sed -i '/server_name _;/a \\trewrite ^/redirect_me$ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+
+# Restart Nginx to apply the changes
+service nginx restart
+
