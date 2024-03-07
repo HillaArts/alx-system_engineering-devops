@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 #Configures a web server with a custom Nginx response header.
 
 # Install Nginx if it is not installed
