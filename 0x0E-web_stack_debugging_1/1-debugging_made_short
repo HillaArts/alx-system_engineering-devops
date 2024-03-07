@@ -1,4 +1,2 @@
 #!/usr/bin/env bash
-apt-get update && apt-get install -y nginx
-service nginx start
-service nginx status || service nginx restart
+service nginx status > /dev/null || service nginx start
