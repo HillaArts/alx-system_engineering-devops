@@ -1,33 +1,18 @@
 #!/usr/bin/env bash
-#Configures Nginx to add a custom HTTP header X-Served-By with the hostname
+#Configures Nginx to respond with a custom header X-Served-By with the value of the server's hostname
 
-# Install Nginx if it's not already installed
-sudo apt-get update
-sudo apt-get install -y nginx
+# Install Nginx if it is not already installed
+if ! command -v nginx &> /dev/null; then
+    sudo apt-get update
+    sudo apt-get install -y nginx
+fi
 
-# Ensure Nginx is running
-sudo service nginx start
+# Add or modify the Nginx configuration to include the custom header
+# Here we're using /etc/nginx/sites-available/default, but adjust as necessary
+sudo sed -i '/listen 80 default_server;/a \\\tadd_header X-Served-By $hostname;' /etc/nginx/sites-available/default
 
-# Fetch the hostname of the server
-HOSTNAME=$(hostname)
+# Ignore SC2154 for shellcheck
+# shellcheck disable=SC2154
 
-# Configure Nginx to add the custom header
-# Create a configuration file in sites-available if not exists and enable it
-echo "server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    add_header X-Served-By $HOSTNAME;
-    location / {
-        root /var/www/html;
-        index index.html index.htm index.nginx-debian.html;
-    }
-}" | sudo tee /etc/nginx/sites-available/custom_header
-
-# Enable the configuration by linking it to the sites-enabled directory
-sudo ln -sf /etc/nginx/sites-available/custom_header /etc/nginx/sites-enabled/
-
-# Test the Nginx configuration for syntax errors
-sudo nginx -t
-
-# Reload Nginx to apply the changes
-sudo systemctl reload nginx
+# Restart Nginx to apply changes
+sudo systemctl restart nginx
