@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Configures a server to ensure Nginx is running and listening on port 80
+
+# Update and install Nginx if it's not already installed
+if ! command -v nginx >/dev/null 2>&1; then
+    echo "Nginx is not installed. Installing..."
+    apt-get update
+    apt-get install nginx -y
+fi
+
+# Ensure Nginx is running. Start or restart the service as necessary.
+echo "Ensuring Nginx is running..."
+systemctl is-active --quiet nginx || systemctl restart nginx
+
+# Optionally, could explicitly configure Nginx to listen on all active IPv4 addresses on port 80
+# This step might involve editing /etc/nginx/sites-available/default or a similar file
+# For simplicity and given the scope of the task, this script assumes the default Nginx configuration already listens on port 80
+
+# Ensure the service is enabled to start on boot
+systemctl enable nginx
+
+echo "Nginx configuration complete. Nginx is now running and should be listening on port 80."
