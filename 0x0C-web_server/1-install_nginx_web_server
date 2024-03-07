@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#This script installs Nginx and configures it to serve a "Hello World!" page.
+
+# Ensure the environment is up to date and Nginx is installed.
+apt-get update -y
+apt-get install nginx -y
+
+# Start Nginx using 'service' to comply with project restrictions.
+service nginx start
+
+# Create a simple HTML file to serve.
+echo "Hello World!" > /var/www/html/index.html
+
+# No need to explicitly modify the default Nginx site configuration.
+# By default, Nginx serves content from /var/www/html/index.html on port 80.
+
+# Restart Nginx to apply any changes and ensure our HTML is served.
+service nginx restart
