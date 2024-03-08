@@ -1,22 +1,21 @@
 #!/usr/bin/env bash
-# Configures a server to ensure Nginx is running and listening on port 80
+# reconfigure ubuntu containers nginx to listen to port 80
+config="
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server ipv6only=on;
 
-# Update and install Nginx if it's not already installed
-if ! command -v nginx >/dev/null 2>&1; then
-    echo "Nginx is not installed. Installing..."
-    apt-get update
-    apt-get install nginx -y
-fi
+	root /usr/share/nginx/html;
+	index index.html index.htm;
 
-# Ensure Nginx is running. Start or restart the service as necessary.
-echo "Ensuring Nginx is running..."
-systemctl is-active --quiet nginx || systemctl restart nginx
+	# Make site accessible from http://localhost/
+	server_name localhost;
 
-# Optionally, could explicitly configure Nginx to listen on all active IPv4 addresses on port 80
-# This step might involve editing /etc/nginx/sites-available/default or a similar file
-# For simplicity and given the scope of the task, this script assumes the default Nginx configuration already listens on port 80
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
 
-# Ensure the service is enabled to start on boot
-systemctl enable nginx
-
-echo "Nginx configuration complete. Nginx is now running and should be listening on port 80."
+}
+"
+echo "$config" > /etc/nginx/sites-enabled/default
+service nginx restart
