@@ -9,6 +9,6 @@ string_to_redirect="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tl
 
 sudo sed -i "s/listen 80 default_server;/$string_to_redirect/" /etc/nginx/sites-enabled/default
 
-sudo bash -c 'echo "Custom 404 Page Content" > /var/www/html/404.html'
+echo "Ceci n'est pas une page" > /var/www/html/404.html
 
 sudo service nginx restart
