@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# script that performs a 301 redirection
+# Script that performs a 301 redirection
 
 sudo apt-get update
 sudo apt-get install -y nginx
@@ -9,4 +9,11 @@ string_to_redirect="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.co
 
 sudo sed -i "s/server_name _;/$string_to_redirect/" /etc/nginx/sites-enabled/default
 
-sudo service nginx restart
+# Use the service command or nginx direct command to restart nginx
+# Uncomment the method you prefer:
+
+# Using service (common in older systems or systems without systemd):
+# sudo service nginx restart
+
+# Using nginx commands directly:
+sudo nginx -s reload
